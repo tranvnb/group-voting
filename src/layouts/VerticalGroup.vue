@@ -5,12 +5,12 @@
         v-for="(vote, vIndex) in group.votes"
         :key="vIndex"
         :is-selected="vote.isUp"
-        @change-vote-state="updateGroupVoteState(gIndex, $event)"
+        @change-vote-state="toggleGroupVoteState(gIndex, $event)"
       ></UpVote>
     </div>
     <AddVoteButton
       :group-id="gIndex"
-      @add-new-vote="addVoteToGroup($event)"
+      @add-new-vote="addVoteBtnToGroup($event)"
     ></AddVoteButton>
   </div>
   <div class="group">
@@ -26,7 +26,7 @@ import { computed, ref } from 'vue';
 import UpVote from '../components/UpVote.vue';
 import { BIconPlus } from 'bootstrap-icons-vue';
 import AddVoteButton from '../components/AddVoteButton.vue';
-import { useStore } from 'vuex';
+import { mapGetters, useStore } from 'vuex';
 import { IGroupState } from '../store/modules/group';
 import { IRootState } from '../store';
 import { GROUP } from '../store/modules/group/constants';
@@ -37,21 +37,31 @@ const groups = computed<IGroupState[]>(
   () => store.getters[`${GROUP.NAMESPACED}/${GROUP.GETTER_GET_LIST_GROUP}`]
 );
 
+// const totalGroup = computed<number>(
+//   () => store.getters[`${GROUP.NAMESPACED}/${GROUP.GETTER_GET_TOTAL_GROUP}`]
+// );
+
 const getGroupState = computed<(id: number) => boolean>(
   () => store.getters[`${GROUP.NAMESPACED}/${GROUP.GETTER_GET_GROUP_STATE}`]
 );
 
-const addVoteToGroup = (gIndex: number) => {
-  const groupState = getGroupState.value(gIndex);
+// const addVote = (groupId: number, isUpVote: boolean) =>
+//   store.dispatch(`${GROUP.NAMESPACED}/${GROUP.ACTION_ADD_VOTE_TO_GROUP}`, {
+//     groupId,
+//     isUpVote,
+//   });
+
+const addVoteBtnToGroup = (groupId: number) => {
+  const isUpVote = getGroupState.value(groupId);
   store.dispatch(`${GROUP.NAMESPACED}/${GROUP.ACTION_ADD_VOTE_TO_GROUP}`, {
-    gIndex,
-    groupState,
+    groupId,
+    isUpVote,
   });
 };
 
-const updateGroupVoteState = (gIndex: number, isUpVote: boolean) => {
-  store.dispatch(`${GROUP.NAMESPACED}/${GROUP.ACTION_CHANGE_GROUP_VOTE}`, {
-    gIndex,
+const toggleGroupVoteState = (groupId: number, isUpVote: boolean) => {
+  store.dispatch(`${GROUP.NAMESPACED}/${GROUP.ACTION_TOGGLE_GROUP_STATE}`, {
+    groupId,
     isUpVote,
   });
 };

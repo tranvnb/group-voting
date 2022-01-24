@@ -41,19 +41,17 @@ const group: Module<IGroupState[], IRootState> = {
       // side effect here
       context.commit(GROUP.MUTATION_ADD_VOTE, payload);
     },
-    [GROUP.ACTION_CHANGE_GROUP_VOTE]: (context: ActionContext<IGroupState[], IRootState>, payload: {groupId: number, isUpVote: boolean}): void => {
+    [GROUP.ACTION_TOGGLE_GROUP_STATE]: (context: ActionContext<IGroupState[], IRootState>, payload: {groupId: number, isUpVote: boolean}): void => {
       //put side effects here , request API....
       context.commit(GROUP.MUTATION_UPDATE_GROUP_VOTE, payload);
     }
   },
   mutations: {
     [GROUP.MUTATION_ADD_VOTE]: (state: IGroupState[], payload: {groupId: number, isUpVote: boolean}) => {
-      debugger;
       const newVote: IVoteState = {isUp: payload.isUpVote};
       state[payload.groupId].votes.push(newVote);
     },
     [GROUP.MUTATION_UPDATE_GROUP_VOTE]: (state: IGroupState[], payload: {groupId: number, isUpVote: boolean}): void => {
-      debugger;
       state[payload.groupId].votes.forEach(v => v.isUp = payload.isUpVote);
     },
   }
