@@ -15,10 +15,9 @@ module.exports = {
     parser: '@typescript-eslint/parser',
     ecmaVersion: 'latest',
     ecmaFeatures: {
-      "jsx": true
+      jsx: true,
     },
     sourceType: 'module',
-
   },
   rules: {
     // override/add rules settings here, such as:

@@ -13,20 +13,13 @@
       @add-new-vote="addVoteBtnToGroup($event)"
     ></AddVoteButton>
   </div>
-  <div class="group">
-    <div class="voting-group">
-      <b-icon-plus class="add-voting-group-btn"></b-icon-plus>
-    </div>
-    <div style="visibility: hidden; width: 105px"></div>
-  </div>
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import UpVote from '../components/UpVote.vue';
-import { BIconPlus } from 'bootstrap-icons-vue';
 import AddVoteButton from '../components/AddVoteButton.vue';
-import { mapGetters, useStore } from 'vuex';
+import { useStore } from 'vuex';
 import { IGroupState } from '../store/modules/group';
 import { IRootState } from '../store';
 import { GROUP } from '../store/modules/group/constants';
@@ -37,19 +30,9 @@ const groups = computed<IGroupState[]>(
   () => store.getters[`${GROUP.NAMESPACED}/${GROUP.GETTER_GET_LIST_GROUP}`]
 );
 
-// const totalGroup = computed<number>(
-//   () => store.getters[`${GROUP.NAMESPACED}/${GROUP.GETTER_GET_TOTAL_GROUP}`]
-// );
-
-const getGroupState = computed<(id: number) => boolean>(
+const getGroupState = computed<(groupId: number) => boolean>(
   () => store.getters[`${GROUP.NAMESPACED}/${GROUP.GETTER_GET_GROUP_STATE}`]
 );
-
-// const addVote = (groupId: number, isUpVote: boolean) =>
-//   store.dispatch(`${GROUP.NAMESPACED}/${GROUP.ACTION_ADD_VOTE_TO_GROUP}`, {
-//     groupId,
-//     isUpVote,
-//   });
 
 const addVoteBtnToGroup = (groupId: number) => {
   const isUpVote = getGroupState.value(groupId);

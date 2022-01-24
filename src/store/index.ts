@@ -11,7 +11,7 @@ export interface IRootState {
 export default createStore<IRootState>({
   modules: {
     group,
-    vote
+    vote,
   },
   strict: process.env.NODE_ENV !== 'production',
 });
