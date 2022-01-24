@@ -12,7 +12,7 @@ import { defineProps, withDefaults } from 'vue';
 import { BIconArrowUpShort } from 'bootstrap-icons-vue';
 
 withDefaults(defineProps<{ isSelected: boolean }>(), {
-  isSelected: true,
+  isSelected: false,
 });
 </script>
 
@@ -27,6 +27,7 @@ withDefaults(defineProps<{ isSelected: boolean }>(), {
   border-radius: 10px;
   margin-left: 5px;
   margin-right: 5px;
+  cursor: pointer;
 }
 .arrow {
   width: 100%;

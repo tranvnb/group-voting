@@ -6,12 +6,10 @@
         :key="index"
       ></UpVote>
     </div>
-    <div>
-      <b-icon-plus
-        class="add-vote-btn"
-        @click="addVoteBtnToGroup(gIndex - 1)"
-      ></b-icon-plus>
-    </div>
+    <AddVoteButton
+      :group-id="gIndex - 1"
+      @add-new-vote="addVoteBtnToGroup($event)"
+    ></AddVoteButton>
   </div>
   <div class="group">
     <div class="voting-group">
@@ -24,26 +22,24 @@
 </template>
 
 <script setup lang="ts">
-import { BIconPlus } from 'bootstrap-icons-vue';
-import { computed, ref, defineProps, withDefaults } from 'vue';
+import { defineProps, withDefaults, ref } from 'vue';
 import UpVote from '../components/UpVote.vue';
+import AddVoteButton from '../components/AddVoteButton.vue';
 
-interface Props {
-  msg: string;
-  occurences: number[];
-  labels?: string[];
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  msg: 'hello',
-  occurences: () => [1, 1],
-  labels: () => ['one', 'two'],
-});
+const props = withDefaults(
+  defineProps<{ msg: string; occurences: number[]; labels?: string[] }>(),
+  {
+    msg: 'hello',
+    occurences: () => [1, 1],
+    labels: () => ['one', 'two'],
+  }
+);
 
 const votingGroupBtnNum = ref<number[]>([1, 2]);
 
 const addVoteBtnToGroup = (gIndex: number) => {
   votingGroupBtnNum.value[gIndex]++;
+  console.log(votingGroupBtnNum.value);
 };
 </script>
 
