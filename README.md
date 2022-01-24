@@ -1,4 +1,5 @@
 # Group Voting demo app
+![image](https://user-images.githubusercontent.com/9379521/150871098-9c3d5a21-918a-4132-a630-6fea4cca1c74.png)
 
 ## Development guides
 
