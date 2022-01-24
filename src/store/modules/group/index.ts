@@ -7,11 +7,7 @@ export interface IGroupState {
   votes: IVoteState[];
 }
 
-const groupList: IGroupState[] = [
-  { votes: [{ isUp: false }] },
-  { votes: [] },
-  { votes: [] },
-];
+const groupList: IGroupState[] = [{ votes: [] }, { votes: [] }, { votes: [] }];
 
 const group: Module<IGroupState[], IRootState> = {
   namespaced: true,
