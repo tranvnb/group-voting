@@ -4,7 +4,7 @@ import VerticalGroup from '../layouts/VerticalGroup.vue';
 
 <template>
   <div class="main-content">
-    <VerticalGroup msg="this is vertical group layout" />
+    <VerticalGroup />
   </div>
 </template>
 

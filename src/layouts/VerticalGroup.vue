@@ -1,45 +1,59 @@
 <template>
-  <div v-for="gIndex in votingGroupBtnNum.length" :key="gIndex" class="group">
+  <div v-for="(group, gIndex) in groups" :key="gIndex" class="group">
     <div class="voting-group">
       <UpVote
-        v-for="index in votingGroupBtnNum[gIndex - 1]"
-        :key="index"
+        v-for="(vote, vIndex) in group.votes"
+        :key="vIndex"
+        :is-selected="vote.isUp"
+        @change-vote-state="updateGroupVoteState(gIndex, $event)"
       ></UpVote>
     </div>
     <AddVoteButton
-      :group-id="gIndex - 1"
-      @add-new-vote="addVoteBtnToGroup($event)"
+      :group-id="gIndex"
+      @add-new-vote="addVoteToGroup($event)"
     ></AddVoteButton>
   </div>
   <div class="group">
     <div class="voting-group">
       <b-icon-plus class="add-voting-group-btn"></b-icon-plus>
     </div>
-    <div style="visibility: hidden">
-      <b-icon-plus class="add-vote-btn"></b-icon-plus>
-    </div>
+    <div style="visibility: hidden; width: 105px"></div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { defineProps, withDefaults, ref } from 'vue';
+import { computed, ref } from 'vue';
 import UpVote from '../components/UpVote.vue';
+import { BIconPlus } from 'bootstrap-icons-vue';
 import AddVoteButton from '../components/AddVoteButton.vue';
+import { useStore } from 'vuex';
+import { IGroupState } from '../store/modules/group';
+import { IRootState } from '../store';
+import { GROUP } from '../store/modules/group/constants';
 
-const props = withDefaults(
-  defineProps<{ msg: string; occurences: number[]; labels?: string[] }>(),
-  {
-    msg: 'hello',
-    occurences: () => [1, 1],
-    labels: () => ['one', 'two'],
-  }
+const store = useStore<IRootState>();
+
+const groups = computed<IGroupState[]>(
+  () => store.getters[`${GROUP.NAMESPACED}/${GROUP.GETTER_GET_LIST_GROUP}`]
 );
 
-const votingGroupBtnNum = ref<number[]>([1, 2]);
+const getGroupState = computed<(id: number) => boolean>(
+  () => store.getters[`${GROUP.NAMESPACED}/${GROUP.GETTER_GET_GROUP_STATE}`]
+);
 
-const addVoteBtnToGroup = (gIndex: number) => {
-  votingGroupBtnNum.value[gIndex]++;
-  console.log(votingGroupBtnNum.value);
+const addVoteToGroup = (gIndex: number) => {
+  const groupState = getGroupState.value(gIndex);
+  store.dispatch(`${GROUP.NAMESPACED}/${GROUP.ACTION_ADD_VOTE_TO_GROUP}`, {
+    gIndex,
+    groupState,
+  });
+};
+
+const updateGroupVoteState = (gIndex: number, isUpVote: boolean) => {
+  store.dispatch(`${GROUP.NAMESPACED}/${GROUP.ACTION_CHANGE_GROUP_VOTE}`, {
+    gIndex,
+    isUpVote,
+  });
 };
 </script>
 

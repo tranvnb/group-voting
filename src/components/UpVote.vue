@@ -2,18 +2,25 @@
   <div
     class="vote-btn"
     :class="{ selected: isSelected, 'not-selected': !isSelected }"
+    @click="$emit('change-vote-state', !isSelected)"
   >
     <b-icon-arrow-up-short class="arrow"></b-icon-arrow-up-short>
   </div>
 </template>
 
+<script lang="ts">
+export const CHANGE_VOTE_STATE = 'change-vote-state';
+</script>
+
 <script setup lang="ts">
-import { defineProps, withDefaults } from 'vue';
+import { defineProps, withDefaults, defineEmits } from 'vue';
 import { BIconArrowUpShort } from 'bootstrap-icons-vue';
 
 withDefaults(defineProps<{ isSelected: boolean }>(), {
   isSelected: false,
 });
+
+defineEmits([CHANGE_VOTE_STATE]);
 </script>
 
 <style scoped lang="scss">

@@ -15,7 +15,12 @@ export const ADD_NEW_VOTE = 'add-new-vote';
 import { defineProps, defineEmits } from 'vue';
 import { BIconPlus } from 'bootstrap-icons-vue';
 
-defineProps<{ groupId: number }>();
+defineProps({
+  groupId: {
+    type: Number,
+    required: true,
+  },
+});
 
 defineEmits([ADD_NEW_VOTE]);
 </script>
